@@ -1,0 +1,32 @@
+{
+  "db_id": "movie_platform",
+  "question": "Name the movie with the most ratings.",
+  "evidence": "movie with the most rating refers to MAX(SUM(rating_score));",
+  "schema_linking": {
+    "movies": [
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movies",
+      "movie_popularity"
+    ],
+    "ratings": [
+      "movie_id",
+      "ratings",
+      "rating_url",
+      "ratings",
+      "rating_url",
+      "rating_score",
+      "rating_id"
+    ],
+    "lists": [
+      "lists"
+    ],
+    "ratings_users": [
+      "ratings_users"
+    ]
+  },
+  "sql": "sql\n\n[End Output]",
+  "text": " sql\n\n[End Output]"
+}

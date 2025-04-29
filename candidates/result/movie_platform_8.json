@@ -1,0 +1,44 @@
+{
+  "db_id": "movie_platform",
+  "question": "List all movie title rated in April 2020 from user who was a trialist.",
+  "evidence": "movie title rated in April 2020 refers to rating_timestamp_utc LIKE '%2020-04-%'; user is a trial list refers to user_trialist = 1;",
+  "schema_linking": {
+    "movies": [
+      "movie_title",
+      "movie_title_language",
+      "movies",
+      "movie_url",
+      "movie_release_year",
+      "movie_release_year",
+      "movie_url",
+      "movies"
+    ],
+    "ratings": [
+      "ratings",
+      "rating_id",
+      "rating_score",
+      "rating_url",
+      "user_id",
+      "user_trialist"
+    ],
+    "ratings_users": [
+      "ratings_users",
+      "user_id",
+      "user_trialist",
+      "user_trialist",
+      "user_eligible_for_trial"
+    ],
+    "lists_users": [
+      "list_creation_date_utc",
+      "list_update_date_utc",
+      "user_id",
+      "user_trialist",
+      "user_eligible_for_trial"
+    ],
+    "lists": [
+      "user_id"
+    ]
+  },
+  "sql": "SELECT DISTINCT m.movie_title\nFROM `movie_platform.movies` AS m\nJOIN `movie_platform.ratings` AS r ON m.movie_id = r.movie_id\nJOIN `movie_platform.ratings_users` AS ru ON r.user_id = ru.user_id\nWHERE r.rating_timestamp_utc LIKE '%2020-04-%'\nAND ru.user_trialist = 1;",
+  "text": " sql\n### Query Plan:\n1. Understand the intent: The question asks for all movie titles that were rated in April 2020 by users who are trialists.\n2. Locate target tables and columns: We need to join the 'ratings' table with the 'ratings_users' table to find out if the user is a trialist. We also need the'movies' table to get the movie titles.\n3. Identify filter conditions: \n   - 'ratings' table should have ratings where the timestamp is in April 2020 ('rating_timestamp_utc LIKE '%2020-04-%'').\n   - 'ratings_users' table should have a 'user_trialist' column indicating the user is a trialist ('user_trialist = 1').\n4. Determine aggregation, grouping, ordering: We don't need to aggregate or group by anything specific, just select distinct movie titles.\n5. Handle joins if needed: Join 'ratings' with 'ratings_users' on 'user_id'.\n6. Build subqueries if needed: No subqueries are needed.\n7. Formulate final SQL: \n\n### Final SQL:\n```sql\nSELECT DISTINCT m.movie_title\nFROM `movie_platform.movies` AS m\nJOIN `movie_platform.ratings` AS r ON m.movie_id = r.movie_id\nJOIN `movie_platform.ratings_users` AS ru ON r.user_id = ru.user_id\nWHERE r.rating_timestamp_utc LIKE '%2020-04-%'\nAND ru.user_trialist = 1;\n```"
+}

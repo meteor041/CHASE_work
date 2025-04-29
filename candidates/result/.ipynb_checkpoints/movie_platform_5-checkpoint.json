@@ -1,0 +1,37 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the average rating for movie titled 'When Will I Be Loved'?",
+  "evidence": "average rating = DIVIDE((SUM(rating_score where movie_title = 'When Will I Be Loved')), COUNT(rating_score));",
+  "schema_linking": {
+    "ratings": [
+      "ratings",
+      "rating_score",
+      "rating_url",
+      "rating_id",
+      "movie_id",
+      "movie_id"
+    ],
+    "ratings_users": [
+      "ratings_users"
+    ],
+    "movies": [
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movie_title",
+      "movie_title_language",
+      "movie_release_year",
+      "director_name",
+      "movie_id",
+      "movies",
+      "movie_release_year",
+      "movie_title"
+    ],
+    "lists": [
+      "list_title"
+    ]
+  },
+  "sql": "",
+  "text": ""
+}

@@ -1,0 +1,40 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the name of the longest movie title? When was it released?",
+  "evidence": "longest movie title refers to MAX(LENGTH(movie_title)); when it was released refers to movie_release_year;",
+  "schema_linking": {
+    "movies": [
+      "movies",
+      "movie_title",
+      "movie_url",
+      "movie_title",
+      "movie_title_language",
+      "movies",
+      "movie_url",
+      "movie_release_year",
+      "director_name",
+      "movies",
+      "movie_title",
+      "movie_id",
+      "movie_release_year",
+      "movie_title",
+      "movies",
+      "movie_id",
+      "movies",
+      "movie_release_year"
+    ],
+    "ratings": [
+      "ratings",
+      "rating_url",
+      "movie_id",
+      "movie_id",
+      "ratings"
+    ],
+    "lists": [
+      "list_creation_timestamp_utc",
+      "list_update_timestamp_utc"
+    ]
+  },
+  "sql": "",
+  "text": ""
+}

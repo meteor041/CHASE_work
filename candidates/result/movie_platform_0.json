@@ -1,0 +1,40 @@
+{
+  "db_id": "movie_platform",
+  "question": "Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.",
+  "evidence": "released in the year 1945 refers to movie_release_year = 1945;",
+  "schema_linking": {
+    "movies": [
+      "movie_title",
+      "movies",
+      "movie_title_language",
+      "movie_release_year",
+      "movie_popularity",
+      "movie_release_year",
+      "movie_title",
+      "movies",
+      "movie_id",
+      "movie_release_year",
+      "movies",
+      "movie_title",
+      "movie_popularity",
+      "movies",
+      "movie_title",
+      "movie_popularity",
+      "movies"
+    ],
+    "ratings": [
+      "movie_id",
+      "critic",
+      "ratings",
+      "critic",
+      "ratings",
+      "critic_likes",
+      "rating_url"
+    ],
+    "lists": [
+      "lists"
+    ]
+  },
+  "sql": "SELECT movie_title \nFROM movie_platform.movies \nWHERE movie_release_year = 1945 \nORDER BY movie_popularity DESC;",
+  "text": " sql\n### Query Plan:\n1. Understand the intent: The user wants to retrieve movie titles released in the year 1945, sorted by movie popularity in descending order.\n2. Locate target tables and columns: We need to find the `movie_title` from the `movies` table, which contains details about movies including their release year (`movie_release_year`) and popularity (`movie_popularity`).\n3. Identify filter conditions: The movies should have been released in the year 1945.\n4. Determine aggregation, grouping, ordering: We need to group by `movie_title` and sort the results by `movie_popularity` in descending order.\n5. Handle joins if needed: No explicit join conditions are mentioned, but we might need to consider the relationship between tables. However, based on the provided evidence, there's no direct relation that needs to be joined with `movies`.\n6. Build subqueries if needed: Not necessary for this query as we can directly select the required fields from the `movies` table.\n7. Formulate final SQL: Select `movie_title` from the `movies` table where `movie_release_year` equals 1945, grouped by `movie_title`, and ordered by `movie_popularity` in descending order.\n\n### Final SQL:\n```sql\nSELECT movie_title \nFROM movie_platform.movies \nWHERE movie_release_year = 1945 \nORDER BY movie_popularity DESC;\n```"
+}

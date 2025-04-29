@@ -1,0 +1,39 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the user avatar url for user 41579158? What is the latest movie rated by him / her?",
+  "evidence": "user avatar url refers to user_avatar_image_url; latest movie rated refers to latest rating_date;",
+  "schema_linking": {
+    "ratings_users": [
+      "user_avatar_image_url",
+      "user_cover_image_url",
+      "user_id",
+      "user_trialist",
+      "ratings_users"
+    ],
+    "lists_users": [
+      "user_avatar_image_url",
+      "user_cover_image_url",
+      "user_id"
+    ],
+    "lists": [
+      "user_id",
+      "user_id"
+    ],
+    "ratings": [
+      "user_id",
+      "ratings",
+      "rating_id",
+      "rating_score",
+      "rating_url"
+    ],
+    "movies": [
+      "movies",
+      "movie_url",
+      "movie_release_year",
+      "movie_title",
+      "movie_popularity"
+    ]
+  },
+  "sql": "SELECT \n    ru.user_avatar_image_url,\n    r.movie_title,\n    r.movie_url,\n    r.rating_score\nFROM \n    ratings_users ru\nLEFT JOIN \n    ratings r ON ru.user_id = r.user_id\nWHERE \n    ru.user_id = 41579158\nAND \n    (SELECT MAX(rating_date) FROM ratings WHERE user_id = ru.user_id) = r.rating_date\nORDER BY \n    r.rating_date DESC;",
+  "text": " sql\n### Query Plan:\n1. **Understand the intent**: The question asks for the user avatar URL of a specific user (ID 41579158) and the latest movie they have rated. It also implies that we should consider both their avatar URL and the details of the latest movie they've rated.\n2. **Locate target tables and columns**: We need to look at tables related to users and ratings. The 'ratings_users' table seems relevant as it contains user IDs and avatar URLs. The 'ratings' table will provide details about the movies rated, including the rating date.\n3. **Identify filter conditions**: We need to filter on 'user_id = 41579158' in the 'ratings_users' table to find the user's avatar URL. For the latest movie, we need to order the ratings by 'rating_date' in descending order within each user ID group.\n4. **Determine aggregation, grouping, ordering**: Since we're interested in the latest movie, we'll use a subquery to get the maximum 'rating_date' for each user. Then, we'll join this subquery back to the 'ratings' table to get the details of the latest movie. We'll also need to group by 'user_id'.\n5. **Handle joins if needed**: Join 'ratings_users' with 'ratings' on 'user_id' to match the user with their ratings. Use a LEFT JOIN to ensure all users are included, even those who haven't rated any movies.\n6. **Build subqueries if needed**: Create a subquery to find the maximum 'rating_date' for each user, which will help us identify the latest movie.\n7. **Formulate final SQL**: Combine the steps above into a SQL query that retrieves the user avatar URL and details of the latest movie.\n\n### Final SQL:\n```sql\nSELECT \n    ru.user_avatar_image_url,\n    r.movie_title,\n    r.movie_url,\n    r.rating_score\nFROM \n    ratings_users ru\nLEFT JOIN \n    ratings r ON ru.user_id = r.user_id\nWHERE \n    ru.user_id = 41579158\nAND \n    (SELECT MAX(rating_date) FROM ratings WHERE user_id = ru.user_id) = r.rating_date\nORDER BY \n    r.rating_date DESC;\n```"
+}

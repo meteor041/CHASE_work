@@ -1,0 +1,44 @@
+{
+  "db_id": "movie_platform",
+  "question": "List all movie title rated in April 2020 from user who was a trialist.",
+  "evidence": "movie title rated in April 2020 refers to rating_timestamp_utc LIKE '%2020-04-%'; user is a trial list refers to user_trialist = 1;",
+  "schema_linking": {
+    "movies": [
+      "movie_title",
+      "movie_title_language",
+      "movies",
+      "movie_url",
+      "movie_release_year",
+      "movie_release_year",
+      "movie_url",
+      "movies"
+    ],
+    "ratings": [
+      "ratings",
+      "rating_id",
+      "rating_score",
+      "rating_url",
+      "user_id",
+      "user_trialist"
+    ],
+    "ratings_users": [
+      "ratings_users",
+      "user_id",
+      "user_trialist",
+      "user_trialist",
+      "user_eligible_for_trial"
+    ],
+    "lists_users": [
+      "list_creation_date_utc",
+      "list_update_date_utc",
+      "user_id",
+      "user_trialist",
+      "user_eligible_for_trial"
+    ],
+    "lists": [
+      "user_id"
+    ]
+  },
+  "sql": "",
+  "text": ""
+}

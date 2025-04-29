@@ -1,0 +1,37 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the average rating for movie titled 'When Will I Be Loved'?",
+  "evidence": "average rating = DIVIDE((SUM(rating_score where movie_title = 'When Will I Be Loved')), COUNT(rating_score));",
+  "schema_linking": {
+    "ratings": [
+      "ratings",
+      "rating_score",
+      "rating_url",
+      "rating_id",
+      "movie_id",
+      "movie_id"
+    ],
+    "ratings_users": [
+      "ratings_users"
+    ],
+    "movies": [
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movie_title",
+      "movie_title_language",
+      "movie_release_year",
+      "director_name",
+      "movie_id",
+      "movies",
+      "movie_release_year",
+      "movie_title"
+    ],
+    "lists": [
+      "list_title"
+    ]
+  },
+  "sql": "SELECT AVG(T1.rating_score) \nFROM `movie_platform.ratings` AS T1 \nJOIN `movie_platform.movies` AS T2 \nON T1.movie_id = T2.movie_id \nWHERE T2.movie_title = 'When Will I Be Loved';",
+  "text": " sql\n### Query Plan:\n1. **Understand the Intent**: The user wants to know the average rating for the movie titled 'When Will I Be Loved'.\n2. **Locate Target Tables and Columns**: The relevant tables are 'ratings' and'movies'. The target column is 'rating_score' from the 'ratings' table and'movie_title' from the'movies' table.\n3. **Identify Filter Conditions**: The condition is that the'movie_title' should be 'When Will I Be Loved'.\n4. **Determine Aggregation, Grouping, Ordering**: We need to calculate the average of 'rating_score', so we use AVG function. There's no need for grouping since we're calculating the average across all ratings.\n5. **Handle Joins if Needed**: A join between 'ratings' and'movies' tables on'movie_id' is necessary to match the movie with its ratings.\n6. **Build Subqueries if Needed**: No subqueries are needed in this case.\n7. **Formulate Final SQL**: \n\n### Final SQL:\n```sql\nSELECT AVG(T1.rating_score) \nFROM `movie_platform.ratings` AS T1 \nJOIN `movie_platform.movies` AS T2 \nON T1.movie_id = T2.movie_id \nWHERE T2.movie_title = 'When Will I Be Loved';\n```"
+}

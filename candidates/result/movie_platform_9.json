@@ -1,0 +1,44 @@
+{
+  "db_id": "movie_platform",
+  "question": "List ther users who gave the worst rating for movie 'Love Will Tear Us Apart'.",
+  "evidence": "worst rating refers to rating_score = 1;",
+  "schema_linking": {
+    "lists": [
+      "user_id"
+    ],
+    "ratings_users": [
+      "user_id",
+      "ratings_users"
+    ],
+    "lists_users": [
+      "user_id",
+      "lists_users"
+    ],
+    "ratings": [
+      "user_id",
+      "ratings",
+      "rating_url",
+      "ratings",
+      "rating_url",
+      "rating_id",
+      "rating_score",
+      "movie_id",
+      "ratings"
+    ],
+    "movies": [
+      "movies",
+      "movie_url",
+      "movie_title",
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movie_title",
+      "movie_release_year",
+      "movies",
+      "movie_url"
+    ]
+  },
+  "sql": "SELECT r.user_id\nFROM ratings r\nJOIN movies m ON r.movie_id = m.movie_id\nWHERE r.rating_score = 1 AND m.movie_title = 'Love Will Tear Us Apart'\nGROUP BY r.user_id;",
+  "text": " sql\n### Query Plan:\n1. **Understand the intent**: The user wants a list of users who gave the worst rating (1) to the movie 'Love Will Tear Us Apart'. \n2. **Locate target tables and columns**: We need to look at the 'ratings' table to find ratings related to movies and the'movies' table to identify the movie title.\n3. **Identify filter conditions**: We need to filter on 'rating_score' being 1 and'movie_title' being 'Love Will Tear Us Apart'.\n4. **Determine aggregation, grouping, ordering**: No aggregation is necessary, but we need to group by 'user_id' to ensure each user is listed only once. Ordering isn't specified, so we'll use a simple SELECT statement without ORDER BY.\n5. **Handle joins if needed**: Join the 'ratings' table with the'movies' table on'movie_id' to match ratings with their corresponding movies.\n6. **Build subqueries if needed**: Not applicable in this case.\n7. **Formulate final SQL**: \n\n### Final SQL:\n```sql\nSELECT r.user_id\nFROM ratings r\nJOIN movies m ON r.movie_id = m.movie_id\nWHERE r.rating_score = 1 AND m.movie_title = 'Love Will Tear Us Apart'\nGROUP BY r.user_id;\n``` sql"
+}

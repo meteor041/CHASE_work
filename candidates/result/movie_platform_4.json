@@ -1,0 +1,59 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the average number of Mubi users who love movies directed by Stanley Kubrick?",
+  "evidence": "average = AVG(movie_popularity); number of Mubi users who loves the movie refers to movie_popularity;",
+  "schema_linking": {
+    "ratings": [
+      "ratings",
+      "rating_score",
+      "rating_url",
+      "rating_id",
+      "movie_id",
+      "ratings",
+      "movie_id",
+      "ratings",
+      "user_id",
+      "critic_likes",
+      "ratings",
+      "critic",
+      "critic"
+    ],
+    "ratings_users": [
+      "ratings_users",
+      "user_id"
+    ],
+    "lists": [
+      "list_movie_number",
+      "user_id"
+    ],
+    "movies": [
+      "movies",
+      "movie_id",
+      "movies",
+      "movie_id",
+      "movie_title",
+      "movies",
+      "movie_title",
+      "movie_popularity",
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movie_popularity",
+      "movie_title",
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movies",
+      "movie_popularity",
+      "movie_url"
+    ],
+    "lists_users": [
+      "user_id",
+      "lists_users"
+    ]
+  },
+  "sql": "SELECT AVG(ru.user_id) AS average_lovers\nFROM (\n    SELECT m.movie_id\n    FROM movies m\n    JOIN ratings r ON m.movie_id = r.movie_id\n    WHERE m.movie_title LIKE '%Stanley Kubrick%'\n) AS filtered_movies\nJOIN ratings_users ru ON filtered_movies.movie_id = ru.rating_id\nWHERE ru.critic_likes = 1\nGROUP BY filtered_movies.movie_id\nORDER BY m.movie_popularity DESC;",
+  "text": " sql\n### Query Plan:\n1. Understand the intent: The question asks for the average number of Mubi users who love movies directed by Stanley Kubrick.\n2. Locate target tables and columns: \n   - `movies` table for movie details including `movie_popularity` and `movie_title`.\n   - `ratings` table for ratings details including `rating_score`, `rating_url`, `rating_id`, `movie_id`, `critic_likes`, and `critic`.\n   - `ratings_users` table for user details including `user_id`.\n3. Identify filter conditions: \n   - Filter movies by director 'Stanley Kubrick'.\n   - Filter ratings by `critic_likes` being true, indicating a positive rating.\n4. Determine aggregation, grouping, ordering: \n   - Aggregate the count of user_id.\n   - Group by movie_id.\n   - Order by movie_popularity in descending order.\n5. Handle joins if needed: Join `movies` with `ratings` on `movie_id`, then join `ratings` with `ratings_users` on `rating_id`.\n6. Build subqueries if needed: Not applicable in this case.\n7. Formulate final SQL: \n\n### Final SQL:\n```sql\nSELECT AVG(ru.user_id) AS average_lovers\nFROM (\n    SELECT m.movie_id\n    FROM movies m\n    JOIN ratings r ON m.movie_id = r.movie_id\n    WHERE m.movie_title LIKE '%Stanley Kubrick%'\n) AS filtered_movies\nJOIN ratings_users ru ON filtered_movies.movie_id = ru.rating_id\nWHERE ru.critic_likes = 1\nGROUP BY filtered_movies.movie_id\nORDER BY m.movie_popularity DESC;\n```"
+}

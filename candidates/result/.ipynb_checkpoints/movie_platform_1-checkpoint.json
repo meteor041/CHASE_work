@@ -1,0 +1,28 @@
+{
+  "db_id": "movie_platform",
+  "question": "State the most popular movie? When was it released and who is the director for the movie?",
+  "evidence": "most popular movie refers to MAX(movie_popularity); when it was released refers to movie_release_year; director for the movie refers to director_name;",
+  "schema_linking": {
+    "movies": [
+      "movie_popularity",
+      "movies",
+      "movie_url",
+      "movie_title",
+      "movie_release_year",
+      "movie_release_year",
+      "movie_title",
+      "movies",
+      "movie_id",
+      "director_name",
+      "director_id",
+      "director_url",
+      "movie_title",
+      "movies"
+    ],
+    "ratings": [
+      "movie_id"
+    ]
+  },
+  "sql": "SELECT \n    m.movie_release_year,\n    d.director_name,\n    m.movie_title\nFROM \n    movies m\nJOIN \n    ratings r ON m.movie_id = r.movie_id\nJOIN \n    directors d ON m.director_id = d.director_id\nWHERE \n    m.movie_popularity = (\n        SELECT \n            MAX(m2.movie_popularity) \n        FROM \n            movies m2\n    )\nORDER BY \n    m.movie_release_year ASC;",
+  "text": " ### Query Plan:\nTo find the most popular movie, we need to:\n1. Identify the table that contains movie popularity data, which is likely within the'movies' table.\n2. Retrieve the'movie_popularity' column from this table.\n3. Filter the results to get the maximum value of'movie_popularity'.\n4. Join the'movies' table with the 'ratings' table to get information about the movie's ID, since ratings relate to movies.\n5. Once we have the maximum popularity value, we can use it to filter the joined tables to find the specific movie details.\n6. Select the required columns:'movie_release_year', 'director_name', and'movie_title' to provide the release year, director, and title of the most popular movie.\n7. Order the result by'movie_release_year' to ensure the data is presented in chronological order.\n\n### Final SQL:\n```sql\nSELECT \n    m.movie_release_year,\n    d.director_name,\n    m.movie_title\nFROM \n    movies m\nJOIN \n    ratings r ON m.movie_id = r.movie_id\nJOIN \n    directors d ON m.director_id = d.director_id\nWHERE \n    m.movie_popularity = (\n        SELECT \n            MAX(m2.movie_popularity) \n        FROM \n            movies m2\n    )\nORDER BY \n    m.movie_release_year ASC;\n```"
+}

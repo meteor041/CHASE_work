@@ -1,0 +1,456 @@
+[
+  {
+    "db_id": "movie_platform",
+    "question": "Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.",
+    "evidence": "released in the year 1945 refers to movie_release_year = 1945;",
+    "keywords": [
+      "movie titles",
+      "released",
+      "1945",
+      "descending",
+      "popularity"
+    ],
+    "schema_linking": {
+      "movies": [
+        "movie_title",
+        "movies",
+        "movie_title_language",
+        "movie_release_year",
+        "movie_popularity",
+        "movie_release_year",
+        "movie_title",
+        "movies",
+        "movie_id",
+        "movie_release_year",
+        "movies",
+        "movie_title",
+        "movie_popularity",
+        "movies",
+        "movie_title",
+        "movie_popularity",
+        "movies"
+      ],
+      "ratings": [
+        "movie_id",
+        "critic",
+        "ratings",
+        "critic",
+        "ratings",
+        "critic_likes",
+        "rating_url"
+      ],
+      "lists": [
+        "lists"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "State the most popular movie? When was it released and who is the director for the movie?",
+    "evidence": "most popular movie refers to MAX(movie_popularity); when it was released refers to movie_release_year; director for the movie refers to director_name;",
+    "keywords": [
+      "most popular movie",
+      "released",
+      "director"
+    ],
+    "schema_linking": {
+      "movies": [
+        "movie_popularity",
+        "movies",
+        "movie_url",
+        "movie_title",
+        "movie_release_year",
+        "movie_release_year",
+        "movie_title",
+        "movies",
+        "movie_id",
+        "director_name",
+        "director_id",
+        "director_url",
+        "movie_title",
+        "movies"
+      ],
+      "ratings": [
+        "movie_id"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the name of the longest movie title? When was it released?",
+    "evidence": "longest movie title refers to MAX(LENGTH(movie_title)); when it was released refers to movie_release_year;",
+    "keywords": [
+      "longest",
+      "movie title",
+      "name",
+      "released",
+      "when"
+    ],
+    "schema_linking": {
+      "movies": [
+        "movies",
+        "movie_title",
+        "movie_url",
+        "movie_title",
+        "movie_title_language",
+        "movies",
+        "movie_url",
+        "movie_release_year",
+        "director_name",
+        "movies",
+        "movie_title",
+        "movie_id",
+        "movie_release_year",
+        "movie_title",
+        "movies",
+        "movie_id",
+        "movies",
+        "movie_release_year"
+      ],
+      "ratings": [
+        "ratings",
+        "rating_url",
+        "movie_id",
+        "movie_id",
+        "ratings"
+      ],
+      "lists": [
+        "list_creation_timestamp_utc",
+        "list_update_timestamp_utc"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "Name the movie with the most ratings.",
+    "evidence": "movie with the most rating refers to MAX(SUM(rating_score));",
+    "keywords": [
+      "movie",
+      "most",
+      "ratings"
+    ],
+    "schema_linking": {
+      "movies": [
+        "movies",
+        "movie_url",
+        "movie_id",
+        "movie_title",
+        "movies",
+        "movie_popularity"
+      ],
+      "ratings": [
+        "movie_id",
+        "ratings",
+        "rating_url",
+        "ratings",
+        "rating_url",
+        "rating_score",
+        "rating_id"
+      ],
+      "lists": [
+        "lists"
+      ],
+      "ratings_users": [
+        "ratings_users"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the average number of Mubi users who love movies directed by Stanley Kubrick?",
+    "evidence": "average = AVG(movie_popularity); number of Mubi users who loves the movie refers to movie_popularity;",
+    "keywords": [
+      "average",
+      "number",
+      "Mubi",
+      "users",
+      "love",
+      "movies",
+      "directed",
+      "Stanley Kubrick"
+    ],
+    "schema_linking": {
+      "ratings": [
+        "ratings",
+        "rating_score",
+        "rating_url",
+        "rating_id",
+        "movie_id",
+        "ratings",
+        "movie_id",
+        "ratings",
+        "user_id",
+        "critic_likes",
+        "ratings",
+        "critic",
+        "critic"
+      ],
+      "ratings_users": [
+        "ratings_users",
+        "user_id"
+      ],
+      "lists": [
+        "list_movie_number",
+        "user_id"
+      ],
+      "movies": [
+        "movies",
+        "movie_id",
+        "movies",
+        "movie_id",
+        "movie_title",
+        "movies",
+        "movie_title",
+        "movie_popularity",
+        "movies",
+        "movie_url",
+        "movie_id",
+        "movie_title",
+        "movie_popularity",
+        "movie_title",
+        "movies",
+        "movie_url",
+        "movie_id",
+        "movie_title",
+        "movies",
+        "movie_popularity",
+        "movie_url"
+      ],
+      "lists_users": [
+        "user_id",
+        "lists_users"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the average rating for movie titled 'When Will I Be Loved'?",
+    "evidence": "average rating = DIVIDE((SUM(rating_score where movie_title = 'When Will I Be Loved')), COUNT(rating_score));",
+    "keywords": [
+      "average rating",
+      "movie",
+      "titled",
+      "When Will I Be Loved"
+    ],
+    "schema_linking": {
+      "ratings": [
+        "ratings",
+        "rating_score",
+        "rating_url",
+        "rating_id",
+        "movie_id",
+        "movie_id"
+      ],
+      "ratings_users": [
+        "ratings_users"
+      ],
+      "movies": [
+        "movies",
+        "movie_url",
+        "movie_id",
+        "movie_title",
+        "movie_title",
+        "movie_title_language",
+        "movie_release_year",
+        "director_name",
+        "movie_id",
+        "movies",
+        "movie_release_year",
+        "movie_title"
+      ],
+      "lists": [
+        "list_title"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the user avatar url for user 41579158? What is the latest movie rated by him / her?",
+    "evidence": "user avatar url refers to user_avatar_image_url; latest movie rated refers to latest rating_date;",
+    "keywords": [
+      "user avatar url",
+      "user 41579158",
+      "latest movie",
+      "rated"
+    ],
+    "schema_linking": {
+      "ratings_users": [
+        "user_avatar_image_url",
+        "user_cover_image_url",
+        "user_id",
+        "user_trialist",
+        "ratings_users"
+      ],
+      "lists_users": [
+        "user_avatar_image_url",
+        "user_cover_image_url",
+        "user_id"
+      ],
+      "lists": [
+        "user_id",
+        "user_id"
+      ],
+      "ratings": [
+        "user_id",
+        "ratings",
+        "rating_id",
+        "rating_score",
+        "rating_url"
+      ],
+      "movies": [
+        "movies",
+        "movie_url",
+        "movie_release_year",
+        "movie_title",
+        "movie_popularity"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the percentage of the ratings were rated by user who was a subcriber?",
+    "evidence": "user is a subscriber refers to user_subscriber = 1; percentage of ratings = DIVIDE(SUM(user_subscriber = 1), SUM(rating_score)) as percent;",
+    "keywords": [
+      "percentage",
+      "ratings",
+      "rated",
+      "user",
+      "subscriber"
+    ],
+    "schema_linking": {
+      "ratings": [
+        "ratings",
+        "rating_url",
+        "rating_id",
+        "rating_score",
+        "ratings",
+        "rating_url",
+        "rating_score",
+        "rating_id",
+        "ratings",
+        "rating_id",
+        "rating_score",
+        "rating_url",
+        "user_id",
+        "user_subscriber"
+      ],
+      "movies": [
+        "movie_popularity"
+      ],
+      "ratings_users": [
+        "ratings_users",
+        "ratings_users",
+        "user_id",
+        "user_trialist",
+        "user_subscriber",
+        "user_avatar_image_url"
+      ],
+      "lists": [
+        "user_id"
+      ],
+      "lists_users": [
+        "user_id",
+        "user_subscriber",
+        "user_avatar_image_url"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "List all movie title rated in April 2020 from user who was a trialist.",
+    "evidence": "movie title rated in April 2020 refers to rating_timestamp_utc LIKE '%2020-04-%'; user is a trial list refers to user_trialist = 1;",
+    "keywords": [
+      "movie title",
+      "rated",
+      "April 2020",
+      "user",
+      "trialist"
+    ],
+    "schema_linking": {
+      "movies": [
+        "movie_title",
+        "movie_title_language",
+        "movies",
+        "movie_url",
+        "movie_release_year",
+        "movie_release_year",
+        "movie_url",
+        "movies"
+      ],
+      "ratings": [
+        "ratings",
+        "rating_id",
+        "rating_score",
+        "rating_url",
+        "user_id",
+        "user_trialist"
+      ],
+      "ratings_users": [
+        "ratings_users",
+        "user_id",
+        "user_trialist",
+        "user_trialist",
+        "user_eligible_for_trial"
+      ],
+      "lists_users": [
+        "list_creation_date_utc",
+        "list_update_date_utc",
+        "user_id",
+        "user_trialist",
+        "user_eligible_for_trial"
+      ],
+      "lists": [
+        "user_id"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "List ther users who gave the worst rating for movie 'Love Will Tear Us Apart'.",
+    "evidence": "worst rating refers to rating_score = 1;",
+    "keywords": [
+      "users",
+      "worst",
+      "rating",
+      "movie",
+      "Love Will Tear Us Apart"
+    ],
+    "schema_linking": {
+      "lists": [
+        "user_id"
+      ],
+      "ratings_users": [
+        "user_id",
+        "ratings_users"
+      ],
+      "lists_users": [
+        "user_id",
+        "lists_users"
+      ],
+      "ratings": [
+        "user_id",
+        "ratings",
+        "rating_url",
+        "ratings",
+        "rating_url",
+        "rating_id",
+        "rating_score",
+        "movie_id",
+        "ratings"
+      ],
+      "movies": [
+        "movies",
+        "movie_url",
+        "movie_title",
+        "movies",
+        "movie_url",
+        "movie_id",
+        "movie_title",
+        "movie_title",
+        "movie_release_year",
+        "movies",
+        "movie_url"
+      ]
+    }
+  }
+]

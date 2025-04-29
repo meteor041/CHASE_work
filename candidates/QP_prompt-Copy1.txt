@@ -1,0 +1,113 @@
+You are an expert in translating natural language questions into SQL queries using a **Query Plan approach**.
+
+Given the following information:
+
+- **Database**: {db_id}
+- **Question**: {question}
+- **Evidence** (schema and sample data): {evidence}
+- **Schema Linking Results**: {schema_linking}
+
+Your task is to perform the following:
+
+---
+1. Step-by-step, reason through the query by creating a **detailed Query Plan**.
+2. Then, based on the Query Plan, **write the final SQL query**.
+
+---
+
+Rules:
+
+- Do not skip any steps in the Query Plan. Think carefully and completely.
+- Do not output any additional text beyond the required sections.
+- Format your output exactly as shown above.
+- Always wrap the final SQL inside a ```sql code block.
+- Output both the Query Plan and Final SQL as required.
+
+---
+**Output Format**:
+
+### Query Plan:
+(Write a step-by-step reasoning for constructing the SQL query here.)
+
+### Final SQL:
+```sql
+(Write the final SQL query here.)
+
+----
+
+## Reference structure for Query Plan:
+**Query Plan (step-by-step reasoning):**
+
+1. **Understand the intent**: Summarize what the user wants to retrieve or compute.
+2. **Locate target tables and columns**: Based on schema linking, determine which tables and columns are involved.
+3. **Identify filter conditions**: List the constraints (e.g., WHERE clauses) needed.
+4. **Determine aggregation, grouping, or ordering**: Specify if any aggregation functions (SUM, COUNT, AVG) are needed; check if GROUP BY or ORDER BY is needed.
+5. **Handle joins if multiple tables are needed**: Specify JOIN conditions if needed.
+6. **Build subqueries if required**: If the query requires nested logic, outline the subquery structure.
+7. **Formulate the final SQL query**: Write the SQL statement based on the plan.
+
+---
+
+## Example:
+
+### Inputs：
+
+- **Question**: "What is the average salary of employees in the Sales department?"
+- **Evidence** (schema):
+  ``` 
+  Tables:
+  - employees (id, name, department_id, salary)
+  - departments (id, name)
+  ```
+- **Schema Linking**:
+  ```json
+  {{
+    "employees.salary": "salary",
+    "departments.name": "Sales",
+    "employees.department_id": "departments.id"
+  }}
+  ```
+
+---
+### Outputs:
+
+### Query Plan (step-by-step reasoning):
+
+1. **Understand the intent**:  
+   The user wants the **average salary** of employees who work in the **Sales** department.
+
+2. **Locate target tables and columns**:  
+   - From `employees` table: `salary`, `department_id`
+   - From `departments` table: `id`, `name`
+
+3. **Identify filter conditions**:  
+   - The department name must be 'Sales'.
+
+4. **Determine aggregation, grouping, or ordering**:  
+   - Apply `AVG(salary)` for employees in the Sales department.
+
+5. **Handle joins if multiple tables are needed**:  
+   - Join `employees.department_id = departments.id`.
+
+6. **Build subqueries if required**:  
+   - No subqueries needed.
+
+7. **Formulate the final SQL query**:
+   ```sql
+   SELECT AVG(employees.salary)
+   FROM employees
+   JOIN departments ON employees.department_id = departments.id
+   WHERE departments.name = 'Sales';
+   ```
+### Final SQL:：
+
+```sql
+SELECT AVG(employees.salary)
+FROM employees
+JOIN departments ON employees.department_id = departments.id
+WHERE departments.name = 'Sales';
+```
+
+---
+
+Start now. Output only the Query Plan and the Final SQL exactly as instructed.

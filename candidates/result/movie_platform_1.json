@@ -1,0 +1,28 @@
+{
+  "db_id": "movie_platform",
+  "question": "State the most popular movie? When was it released and who is the director for the movie?",
+  "evidence": "most popular movie refers to MAX(movie_popularity); when it was released refers to movie_release_year; director for the movie refers to director_name;",
+  "schema_linking": {
+    "movies": [
+      "movie_popularity",
+      "movies",
+      "movie_url",
+      "movie_title",
+      "movie_release_year",
+      "movie_release_year",
+      "movie_title",
+      "movies",
+      "movie_id",
+      "director_name",
+      "director_id",
+      "director_url",
+      "movie_title",
+      "movies"
+    ],
+    "ratings": [
+      "movie_id"
+    ]
+  },
+  "sql": "SELECT m.movie_release_year, d.director_name\nFROM movies m\nJOIN directors d ON m.director_id = d.director_id\nWHERE m.movie_popularity = (\n    SELECT MAX(movie_popularity) FROM movies\n)",
+  "text": " sql\n### Query Plan:\n1. **Understand the intent**: The question asks for the most popular movie, its release year, and the director's name. This involves finding the maximum popularity value from the movies table, then retrieving the corresponding movie details.\n\n2. **Locate target tables and columns**: \n   - Target Table: `movies`\n   - Columns of Interest: `movie_popularity`, `movie_release_year`, `director_name`\n\n3. **Identify filter conditions**: \n   - Maximum popularity (`MAX(movie_popularity)`)\n\n4. **Determine aggregation, grouping, ordering**: \n   - Aggregate function: `MAX()`\n   - Grouping: None required since we're looking for a single row with max popularity\n   - Ordering: Not required for this specific query as we're interested in the single row with max popularity\n\n5. **Handle joins if needed**: No join is necessary since all required columns are in the same table.\n\n6. **Build subqueries if needed**: No subquery required for this query.\n\n7. **Formulate final SQL**: \n\n### Final SQL:\n```sql\nSELECT m.movie_release_year, d.director_name\nFROM movies m\nJOIN directors d ON m.director_id = d.director_id\nWHERE m.movie_popularity = (\n    SELECT MAX(movie_popularity) FROM movies\n)\n```"
+}
