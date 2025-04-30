@@ -6,7 +6,7 @@ def original_to_pairwise_data(data):
     将原始数据转换为pairwise数据
     """
     pairwise_datas = []
-    with open(r"pairwise\selection_agent_train_prompt.txt", "r", encoding='utf-8') as f:
+    with open(r"selection_agent_train_prompt.txt", "r", encoding='utf-8') as f:
         prompt_tpl = f.read()
     for i in range(len(data)):
         for j in range(i+1, len(data)):
@@ -40,5 +40,5 @@ if __name__ == "__main__":
         data = json.load(f)
     data = data[:10]
     pairwise_datas = original_to_pairwise_data(data)
-    with open(r"pairwise_datas.json", "w") as f:
+    with open(r"pairwise_datas.json", "w", encoding='utf-8') as f:
         json.dump(pairwise_datas, f, ensure_ascii=False, indent=2)
