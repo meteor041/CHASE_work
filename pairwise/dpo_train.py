@@ -3,8 +3,8 @@ from trl import DPOTrainer, DPOConfig
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments
 
 # 模型和数据路径
-model_name = "/your/local/path/to/qwen3-8b"  # 或 HuggingFace 上模型名
-data_path = "qwen_sql_dpo_data.jsonl"
+model_name = "/your/local/path/to/qwen3-8b"  # 暂时使用qwen-3-8B
+data_path = "qwen_sql_dpo_data.jsonl" # 训练数据来源
 
 # 加载数据
 dataset = load_dataset("json", data_files=data_path, split="train")
@@ -20,10 +20,10 @@ model = AutoModelForCausalLM.from_pretrained(
 
 # DPO配置
 dpo_config = DPOConfig(
-    beta=0.1,
-    max_prompt_length=512,
-    max_length=1024,
-    label_smoothing=0.0,
+    beta=0.1, # 温度参数
+    max_prompt_length=512, # 最长指令长度,用于限制输入提示
+    max_length=1024, # 最大总长度
+    label_smoothing=0.0, # 标签平滑,这里设置为0,保持原始偏好信息的准确性
 )
 
 training_args = TrainingArguments(
