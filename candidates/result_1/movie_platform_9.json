@@ -1,0 +1,44 @@
+{
+  "db_id": "movie_platform",
+  "question": "List ther users who gave the worst rating for movie 'Love Will Tear Us Apart'.",
+  "evidence": "worst rating refers to rating_score = 1;",
+  "schema_linking": {
+    "lists": [
+      "user_id"
+    ],
+    "ratings_users": [
+      "user_id",
+      "ratings_users"
+    ],
+    "lists_users": [
+      "user_id",
+      "lists_users"
+    ],
+    "ratings": [
+      "user_id",
+      "ratings",
+      "rating_url",
+      "ratings",
+      "rating_url",
+      "rating_id",
+      "rating_score",
+      "movie_id",
+      "ratings"
+    ],
+    "movies": [
+      "movies",
+      "movie_url",
+      "movie_title",
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movie_title",
+      "movie_release_year",
+      "movies",
+      "movie_url"
+    ]
+  },
+  "sql": "SELECT user_id\nFROM ratings\nJOIN movies ON ratings.movie_id = movies.movie_id\nWHERE movies.movie_title = 'Love Will Tear Us Apart' AND ratings.rating_score = 1;",
+  "text": " [End Output]\n\n[Start Output]\n\n### Query Plan:\n1. Understand the intent: The goal is to find users who gave the worst rating (rating_score = 1) for the movie 'Love Will Tear Us Apart'.\n2. Locate target tables and columns: The relevant tables are 'ratings' for user ratings and'movies' for movie information. Key columns include 'rating_score', 'user_id','movie_id', and'movie_title'.\n3. Identify filter conditions: Filter for the movie title 'Love Will Tear Us Apart' and a rating_score of 1.\n4. Determine aggregation, grouping, ordering: No aggregation is needed; we simply need to list the user_id(s) who gave the worst rating.\n5. Handle joins if needed: Join 'ratings' with'movies' on'movie_id' to link ratings to the correct movie.\n6. Build subqueries if needed: No subqueries are needed as the filtering can be directly applied.\n7. Formulate final SQL: Select user_id from ratings where movie_id corresponds to 'Love Will Tear Us Apart' and rating_score = 1.\n\n### Final SQL:\n```sql\nSELECT user_id\nFROM ratings\nJOIN movies ON ratings.movie_id = movies.movie_id\nWHERE movies.movie_title = 'Love Will Tear Us Apart' AND ratings.rating_score = 1;\n``` [End Output]\n\nOkay, let's tackle this problem. The user wants a list of users who gave the worst rating (which is 1) for the movie 'Love Will Tear Us Apart'. \n\nFirst, I need to understand the database schema. The relevant tables here are probably 'ratings' and'movies'. The 'ratings' table has user_id, movie_id, and rating_score. The'movies' table has movie_id and movie_title. \n\nSo the plan is to join these two tables on movie_id to link the movie title with its ratings. Then, filter where movie_title is 'Love Will Tear Us Apart' and rating_score is 1. The result should be the user_ids from those rows.\n\nWait, the schema linking results mention some other tables like 'lists', 'ratings_users', etc. But the question is about movie ratings, so maybe those other tables aren't needed here. The key is to focus on 'ratings' and'movies'.\n\nI need to make sure that the join is correct. The 'ratings' table has a movie_id, and the'movies' table also has movie_id. Joining on that makes sense. Then, the WHERE clause will filter for the specific movie title and the worst rating. \n\nNo aggregation is needed since we just need the user IDs. So the SQL query should select user_id from the joined tables with the appropriate conditions. Let me check if there are any typos in the column names. The schema shows 'rating_score' and'movie_title', so that's correct. \n\nI think that's all. The final SQL should join the two tables, apply the filters, and select the user IDs.\n```sql\nSELECT ratings.user_id\nFROM ratings\nJOIN movies ON ratings.movie_id = movies.movie_id\nWHERE movies.movie_title = 'Love Will Tear Us Apart' AND ratings.rating_score = 1;\n``` [End Output]"
+}

@@ -29,7 +29,7 @@ from transformers import (
 # ---------- 可调参数 ----------
 @dataclass
 class Config:
-    model_name: str = r"/data/qwen2-7b-instruct"
+    model_name: str = r"/home/yangliu26/qwen3-8b"
     prompt_file: str = "QP_prompt.txt"
     input_json: str = "schema_linking_result.json"
     output_dir: str = "result"

@@ -1,0 +1,59 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the average number of Mubi users who love movies directed by Stanley Kubrick?",
+  "evidence": "average = AVG(movie_popularity); number of Mubi users who loves the movie refers to movie_popularity;",
+  "schema_linking": {
+    "ratings": [
+      "ratings",
+      "rating_score",
+      "rating_url",
+      "rating_id",
+      "movie_id",
+      "ratings",
+      "movie_id",
+      "ratings",
+      "user_id",
+      "critic_likes",
+      "ratings",
+      "critic",
+      "critic"
+    ],
+    "ratings_users": [
+      "ratings_users",
+      "user_id"
+    ],
+    "lists": [
+      "list_movie_number",
+      "user_id"
+    ],
+    "movies": [
+      "movies",
+      "movie_id",
+      "movies",
+      "movie_id",
+      "movie_title",
+      "movies",
+      "movie_title",
+      "movie_popularity",
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movie_popularity",
+      "movie_title",
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movies",
+      "movie_popularity",
+      "movie_url"
+    ],
+    "lists_users": [
+      "user_id",
+      "lists_users"
+    ]
+  },
+  "sql": "",
+  "text": ""
+}

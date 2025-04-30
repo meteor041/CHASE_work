@@ -1,0 +1,44 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the percentage of the ratings were rated by user who was a subcriber?",
+  "evidence": "user is a subscriber refers to user_subscriber = 1; percentage of ratings = DIVIDE(SUM(user_subscriber = 1), SUM(rating_score)) as percent;",
+  "schema_linking": {
+    "ratings": [
+      "ratings",
+      "rating_url",
+      "rating_id",
+      "rating_score",
+      "ratings",
+      "rating_url",
+      "rating_score",
+      "rating_id",
+      "ratings",
+      "rating_id",
+      "rating_score",
+      "rating_url",
+      "user_id",
+      "user_subscriber"
+    ],
+    "movies": [
+      "movie_popularity"
+    ],
+    "ratings_users": [
+      "ratings_users",
+      "ratings_users",
+      "user_id",
+      "user_trialist",
+      "user_subscriber",
+      "user_avatar_image_url"
+    ],
+    "lists": [
+      "user_id"
+    ],
+    "lists_users": [
+      "user_id",
+      "user_subscriber",
+      "user_avatar_image_url"
+    ]
+  },
+  "sql": "SELECT \n  (SUM(CASE WHEN ru.user_subscriber = 1 THEN r.rating_score ELSE 0 END) * 100.0 / SUM(r.rating_score)) AS percent\nFROM ratings r\nJOIN ratings_users ru ON r.user_id = ru.user_id;",
+  "text": " [End Output]\n\n### Query Plan:\n1. Understand the intent: The question asks for the percentage of ratings that were given by users who are subscribers. This requires calculating the ratio of subscriber ratings to the total number of ratings.\n\n2. Locate target tables and columns: The relevant tables are 'ratings' and 'ratings_users'. The 'ratings' table contains 'rating_score' and 'user_id', while 'ratings_users' contains 'user_id', 'user_subscriber', and 'user_trialist'. The 'user_subscriber' column indicates if a user is a subscriber (1 for yes, 0 for no).\n\n3. Identify filter conditions: We need to filter for users who are subscribers (user_subscriber = 1) in the 'ratings_users' table and ensure that the 'user_id' matches between 'ratings' and 'ratings_users'.\n\n4. Determine aggregation, grouping, ordering: We need to calculate the total number of ratings (SUM(rating_score)) and the number of ratings by subscribers (SUM(CASE WHEN user_subscriber = 1 THEN rating_score ELSE 0 END)). The result should be a single percentage value, so no grouping is needed.\n\n5. Handle joins if needed: A JOIN is required between 'ratings' and 'ratings_users' on 'user_id' to link each rating to the corresponding user's subscription status.\n\n6. Build subqueries if needed: No subqueries are needed as the calculation can be done directly with JOIN and aggregation.\n\n7. Formulate final SQL: Use a JOIN between 'ratings' and 'ratings_users' on 'user_id', filter for subscriber users, and compute the percentage of subscriber ratings relative to the total ratings.\n\n### Final SQL:\n```sql\nSELECT \n  (SUM(CASE WHEN ru.user_subscriber = 1 THEN r.rating_score ELSE 0 END) * 100.0 / SUM(r.rating_score)) AS percent\nFROM ratings r\nJOIN ratings_users ru ON r.user_id = ru.user_id;\n``` [End Output] Alright, let me try to work through this problem step by step. The user is asking for the percentage of ratings that were given by subscribers. \n\nFirst, I need to understand what exactly is being asked. The percentage here is the ratio of subscriber ratings to the total ratings. So, I need two numbers: the total number of ratings and the number of ratings from subscribers. Then, divide the subscriber count by the total and multiply by 100 to get the percentage.\n\nNext, I need to figure out which tables to use. The question mentions users being subscribers, so the 'ratings_users' table likely has the 'user_subscriber' column. The 'ratings' table will have the 'user_id' to link to the users. The 'ratings' table also has 'rating_score', which I assume is the actual score given, but since we're counting the number of ratings, maybe it's just the count of rows. Wait, the evidence says \"percentage of ratings = DIVIDE(SUM(user_subscriber = 1), SUM(rating_score))\". Hmm, that's a bit confusing. Wait, maybe the 'rating_score' is actually the count of ratings? Or maybe it's a typo and they meant COUNT(*)? Or perhaps the 'rating_score' is a value that's summed, but the question is about the count of ratings. \n\nWait, the evidence says: \"percentage of ratings = DIVIDE(SUM(user_subscriber = 1), SUM(rating_score)) as percent\". Wait, that seems odd. Because SUM(user_subscriber = 1) would be summing 1s and 0s, which effectively counts the number of subscribers. But the denominator is SUM(rating_score). So maybe the 'rating_score' here is actually the count of ratings? Or maybe the user made a mistake in the evidence. Alternatively, maybe the 'rating_score' is the number of ratings, but that seems unlikely. Wait, perhaps the user intended to say that the numerator is the count of subscriber ratings (i.e., the number of ratings where user is a subscriber), and the denominator is the total number of ratings. So, in that case, the SUM(rating_score) in the denominator might be a mistake, and it should be COUNT(*)? But the user's evidence says to use SUM(rating_score) as the denominator. \n\nWait, maybe the 'rating_score' is actually the count of ratings. For example, if each rating has a score, but the sum of the scores is being used as the total number of ratings. That doesn't make sense. Alternatively, maybe the user intended that the denominator is the total number of ratings, which is COUNT(*), but the evidence says SUM(rating_score). This is confusing. \n\nBut according to the evidence, the percentage is calculated as SUM(user_subscriber = 1) divided by SUM(rating_score). So, I need to follow that. So, the numerator is the sum of 1s where user_subscriber is 1 (which counts the number of subscriber ratings), and the denominator is the sum of rating_score. Wait, but if rating_score is a score (like 1-5), then summing them would not give the total number of ratings. So maybe the user made a mistake in the evidence. But since I have to follow the evidence, I have to proceed with that. \n\nBut perhaps the 'rating_score' here is actually the count of ratings. Maybe the column name is misleading. For example, maybe 'rating_score' is actually the number of ratings per user, but that's unclear. Alternatively, maybe the user intended that the denominator is the total number of ratings, which would be COUNT(*), but the evidence says SUM(rating_score). \n\nThis is a bit of a problem. However, given the evidence provided, I have to go with the instructions. So, the numerator is the sum of 1s where user_subscriber is 1 (i.e., the count of ratings by subscribers), and the denominator is the sum of rating_score. \n\nSo, to proceed, I need to join the 'ratings' table with 'ratings_users' on user_id. Then, for each rating, check if the user is a subscriber (user_subscriber = 1). Sum those 1s for the numerator, and sum the rating_score for the denominator. \n\nWait, but if the denominator is SUM(rating_score), then that would be the sum of all rating scores, not the count of ratings. So, for example, if a user gave a 5-star rating, that would contribute 5 to the denominator. But that's not the count of ratings. So this seems like a possible error in the evidence. However, since the user provided that as part of the evidence, I have to use it. \n\nSo, the SQL query would need to calculate SUM(CASE WHEN user_subscriber = 1 THEN rating_score ELSE 0 END) divided by SUM(rating_score) multiplied by 100. \n\nBut wait, the numerator is the sum of 1s where user_subscriber is 1, which would count the number of subscriber ratings. However, the evidence says \"SUM(user_subscriber = 1)\", which would be summing 1s and 0s. So that's equivalent to COUNT(*) for subscriber ratings. But the denominator is SUM(rating_score). \n\nBut if the user intended the denominator to be the total number of ratings, then the denominator"
+}

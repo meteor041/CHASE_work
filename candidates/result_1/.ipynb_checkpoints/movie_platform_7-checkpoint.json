@@ -1,0 +1,44 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the percentage of the ratings were rated by user who was a subcriber?",
+  "evidence": "user is a subscriber refers to user_subscriber = 1; percentage of ratings = DIVIDE(SUM(user_subscriber = 1), SUM(rating_score)) as percent;",
+  "schema_linking": {
+    "ratings": [
+      "ratings",
+      "rating_url",
+      "rating_id",
+      "rating_score",
+      "ratings",
+      "rating_url",
+      "rating_score",
+      "rating_id",
+      "ratings",
+      "rating_id",
+      "rating_score",
+      "rating_url",
+      "user_id",
+      "user_subscriber"
+    ],
+    "movies": [
+      "movie_popularity"
+    ],
+    "ratings_users": [
+      "ratings_users",
+      "ratings_users",
+      "user_id",
+      "user_trialist",
+      "user_subscriber",
+      "user_avatar_image_url"
+    ],
+    "lists": [
+      "user_id"
+    ],
+    "lists_users": [
+      "user_id",
+      "user_subscriber",
+      "user_avatar_image_url"
+    ]
+  },
+  "sql": "",
+  "text": ""
+}

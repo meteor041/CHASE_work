@@ -37,7 +37,7 @@ def original_to_pairwise_data(data):
 if __name__ == "__main__":
     with open(r"/home/yangliu26/data/pairwise/final_result2_merged.json", "r", encoding='utf-8') as f:
         data = json.load(f)
-    data = data[:10]
+    # data = data[:10]
     pairwise_datas = original_to_pairwise_data(data)
     with open(r"pairwise_datas.json", "w") as f:
         json.dump(pairwise_datas, f, ensure_ascii=False, indent=2)

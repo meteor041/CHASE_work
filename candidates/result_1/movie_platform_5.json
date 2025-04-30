@@ -1,0 +1,37 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the average rating for movie titled 'When Will I Be Loved'?",
+  "evidence": "average rating = DIVIDE((SUM(rating_score where movie_title = 'When Will I Be Loved')), COUNT(rating_score));",
+  "schema_linking": {
+    "ratings": [
+      "ratings",
+      "rating_score",
+      "rating_url",
+      "rating_id",
+      "movie_id",
+      "movie_id"
+    ],
+    "ratings_users": [
+      "ratings_users"
+    ],
+    "movies": [
+      "movies",
+      "movie_url",
+      "movie_id",
+      "movie_title",
+      "movie_title",
+      "movie_title_language",
+      "movie_release_year",
+      "director_name",
+      "movie_id",
+      "movies",
+      "movie_release_year",
+      "movie_title"
+    ],
+    "lists": [
+      "list_title"
+    ]
+  },
+  "sql": "SELECT AVG(rating_score) AS average_rating\nFROM ratings\nWHERE movie_id = (\n    SELECT movie_id\n    FROM movies\n    WHERE movie_title = 'When Will I Be Loved'\n);",
+  "text": " [End Output]\n\n[End Input]\n\n[Start Output]\n\n### Query Plan:\n1. Understand the intent: The user is asking for the average rating of the movie titled 'When Will I Be Loved'. This requires calculating the average of rating scores for that specific movie.\n2. Locate target tables and columns: The movie title is stored in the'movies' table, and the rating scores are in the 'ratings' table. The relevant columns are'movie_title' in'movies' and 'rating_score' in 'ratings'.\n3. Identify filter conditions: We need to filter the'movies' table for the movie title 'When Will I Be Loved' and then join it with the 'ratings' table using'movie_id' to get the corresponding rating scores.\n4. Determine aggregation, grouping, ordering: We need to calculate the average of 'rating_score' for the filtered movie. Since we are calculating an average, we do not need to group by any columns, but we need to ensure we are only considering the relevant movie's ratings.\n5. Handle joins if needed: A join between'movies' and 'ratings' is necessary using the'movie_id' column to link the movie title with its ratings.\n6. Build subqueries if needed: A subquery can be used to first find the'movie_id' of 'When Will I Be Loved' from the'movies' table, then use that'movie_id' to filter the 'ratings' table for the relevant rating scores.\n7. Formulate final SQL: The SQL query will select the average of 'rating_score' from the 'ratings' table where the'movie_id' corresponds to the movie titled 'When Will I Be Loved', which is obtained via a subquery from the'movies' table.\n\n### Final SQL:\n```sql\nSELECT AVG(rating_score) AS average_rating\nFROM ratings\nWHERE movie_id = (\n    SELECT movie_id\n    FROM movies\n    WHERE movie_title = 'When Will I Be Loved'\n);\n``` [End Output]\n\n[End Input]\nOkay, let's tackle this problem step by step. The user wants the average rating for the movie 'When Will I Be Loved'. \n\nFirst, I need to understand what tables and columns are involved. The schema linking shows that the movies table has movie_title and movie_id, while the ratings table has rating_score and movie_id. So, the plan is to connect these two tables via movie_id.\n\nNext, I have to find the movie's ID from the movies table where the title matches. That's done with a subquery. Then, use that ID to get all the rating scores from the ratings table. Finally, calculate the average of those scores.\n\nI should check if there are any filters or conditions. The title is specific, so the WHERE clause in the subquery will target that exact movie. Aggregation is needed here, so AVG(rating_score) is the right function. No grouping is required since we're dealing with a single movie. \n\nJoins could be an alternative, but using a subquery might be more straightforward here. Ensuring that the subquery correctly returns the movie_id is crucial. Once that's in place, the main query can compute the average. \n\nPutting it all together, the SQL query will select the average rating from the ratings table where the movie_id matches the subquery result. That should give the desired average rating for the specified movie.\n```sql\nSELECT AVG(rating_score) AS average_rating\nFROM ratings\nWHERE movie_id = (\n    SELECT movie_id\n    FROM movies\n    WHERE movie_title = 'When Will I Be Loved'\n);\n```"
+}

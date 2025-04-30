@@ -1,0 +1,39 @@
+{
+  "db_id": "movie_platform",
+  "question": "What is the user avatar url for user 41579158? What is the latest movie rated by him / her?",
+  "evidence": "user avatar url refers to user_avatar_image_url; latest movie rated refers to latest rating_date;",
+  "schema_linking": {
+    "ratings_users": [
+      "user_avatar_image_url",
+      "user_cover_image_url",
+      "user_id",
+      "user_trialist",
+      "ratings_users"
+    ],
+    "lists_users": [
+      "user_avatar_image_url",
+      "user_cover_image_url",
+      "user_id"
+    ],
+    "lists": [
+      "user_id",
+      "user_id"
+    ],
+    "ratings": [
+      "user_id",
+      "ratings",
+      "rating_id",
+      "rating_score",
+      "rating_url"
+    ],
+    "movies": [
+      "movies",
+      "movie_url",
+      "movie_release_year",
+      "movie_title",
+      "movie_popularity"
+    ]
+  },
+  "sql": "",
+  "text": ""
+}
