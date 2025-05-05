@@ -1,0 +1,72 @@
+[
+  {
+    "db_id": "movie_platform",
+    "question": "Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.",
+    "evidence": "released in the year 1945 refers to movie_release_year = 1945;",
+    "keywords": [],
+    "schema_linking": {}
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "State the most popular movie? When was it released and who is the director for the movie?",
+    "evidence": "most popular movie refers to MAX(movie_popularity); when it was released refers to movie_release_year; director for the movie refers to director_name;",
+    "keywords": [],
+    "schema_linking": {}
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the name of the longest movie title? When was it released?",
+    "evidence": "longest movie title refers to MAX(LENGTH(movie_title)); when it was released refers to movie_release_year;",
+    "keywords": [],
+    "schema_linking": {}
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "Name the movie with the most ratings.",
+    "evidence": "movie with the most rating refers to MAX(SUM(rating_score));",
+    "keywords": [],
+    "schema_linking": {}
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the average number of Mubi users who love movies directed by Stanley Kubrick?",
+    "evidence": "average = AVG(movie_popularity); number of Mubi users who loves the movie refers to movie_popularity;",
+    "keywords": [],
+    "schema_linking": {}
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the average rating for movie titled 'When Will I Be Loved'?",
+    "evidence": "average rating = DIVIDE((SUM(rating_score where movie_title = 'When Will I Be Loved')), COUNT(rating_score));",
+    "keywords": [],
+    "schema_linking": {}
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the user avatar url for user 41579158? What is the latest movie rated by him / her?",
+    "evidence": "user avatar url refers to user_avatar_image_url; latest movie rated refers to latest rating_date;",
+    "keywords": [],
+    "schema_linking": {}
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "What is the percentage of the ratings were rated by user who was a subcriber?",
+    "evidence": "user is a subscriber refers to user_subscriber = 1; percentage of ratings = DIVIDE(SUM(user_subscriber = 1), SUM(rating_score)) as percent;",
+    "keywords": [],
+    "schema_linking": {}
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "List all movie title rated in April 2020 from user who was a trialist.",
+    "evidence": "movie title rated in April 2020 refers to rating_timestamp_utc LIKE '%2020-04-%'; user is a trial list refers to user_trialist = 1;",
+    "keywords": [],
+    "schema_linking": {}
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "List ther users who gave the worst rating for movie 'Love Will Tear Us Apart'.",
+    "evidence": "worst rating refers to rating_score = 1;",
+    "keywords": [],
+    "schema_linking": {}
+  }
+]
