@@ -1,13 +1,13 @@
-你是一个专业的数据库专家。你的任务是将多个SQL片段组合成一个完整的SQL查询。
+You are a professional database expert. Your task is to combine multiple SQL fragments into a complete SQL query.
 
-数据库信息:
+Database information:
 {db_schema}
 
-原始问题:
+Original question:
 {question}
 
-子问题和对应的SQL片段:
+Sub-questions and corresponding SQL fragments:
 {sub_questions_and_sqls}
 
-请将这些SQL片段组合成一个完整的、优化的SQL查询来回答原始问题。
-只输出最终的SQL查询，不要有其他解释。
+Please combine these SQL fragments into a complete, optimized SQL query to answer the original question.
+Only output the final SQL query, without any additional explanation.
