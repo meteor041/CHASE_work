@@ -2,7 +2,7 @@ from datasets import load_dataset, Dataset
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
 import torch
 import json
-
+import os
 def format_pairwise_example(example):
     return {
         "text": example['prompt'],
@@ -32,13 +32,24 @@ tokenized_dataset.set_format("torch", columns=["input_ids", "attention_mask", "l
 print("train size:", len(tokenized_dataset["train"]))
 print("test size:", len(tokenized_dataset["test"]))
 
+# from transformers import is_torch_tpu_available
+
+if not torch.distributed.is_initialized():
+    try:
+        import deepspeed
+        deepspeed.init_distributed()
+        print(f"✅ 手动初始化完成: Rank {torch.distributed.get_rank()}")
+    except Exception as e:
+        print(f"❌ DeepSpeed 手动初始化失败: {e}")
+    
+print("正在初始化训练参数")
 # 训练参数
 training_args = TrainingArguments(
     output_dir="./pairwise_selector_model/qwen3-8b/",
     eval_strategy="epoch",
     save_strategy="epoch",
-    per_device_train_batch_size=2,
-    per_device_eval_batch_size=2,
+    per_device_train_batch_size=1,
+    per_device_eval_batch_size=1,
     num_train_epochs=3,
     bf16=True,
     logging_dir="./logs",
@@ -47,9 +58,12 @@ training_args = TrainingArguments(
     report_to="none",
     load_best_model_at_end=True,
     metric_for_best_model="accuracy",
-    ddp_find_unused_parameters=False
+    ddp_find_unused_parameters=False,
+    deepspeed="/home/yangliu26/CHASE/pairwise/ds_config.json"
 )
+print("初始训练化参数完成")
 
+print("⚙️ 正在初始化 Trainer ...")
 # Trainer
 trainer = Trainer(
     model=model,
@@ -58,6 +72,7 @@ trainer = Trainer(
     eval_dataset=tokenized_dataset["test"],
     tokenizer=tokenizer
 )
+print("🔥 Calling trainer.train()...")
 
 print("🔥 Calling trainer.train()...")
 trainer.train()
