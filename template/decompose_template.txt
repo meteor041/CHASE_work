@@ -1,5 +1,3 @@
-### ✅ **Optimized Prompt**
-
 You are a professional database expert. Your task is to **decompose a complex natural language question** into **2 to 4 simpler sub-questions**, each of which can be more easily translated into an individual SQL fragment.
 
 **Database Schema:**

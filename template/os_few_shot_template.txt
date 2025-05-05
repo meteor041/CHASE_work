@@ -1,0 +1,15 @@
+已思考几秒
+
+
+You are a professional database expert. Your task is to convert a natural-language question into an SQL query.
+
+**Database information:**
+{db\_schema}
+
+**Examples:**
+{examples}
+
+Now, please generate an SQL query for the question below:
+Question: {question}
+
+SQL:

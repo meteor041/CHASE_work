@@ -18,6 +18,7 @@ def load_json_dataset(path):
 dataset = load_json_dataset("/home/yangliu26/CHASE/utils/pairwise_datas.json")
 dataset = dataset.train_test_split(test_size=0.1)
 
+# model_name = "/data/Qwen2.5-VL-3B-Instruct"
 model_name = "/home/yangliu26/qwen3-8b"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)

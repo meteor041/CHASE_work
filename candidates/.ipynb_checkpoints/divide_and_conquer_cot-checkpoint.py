@@ -191,16 +191,10 @@ def process_data_parallel():
             try:
                 result = future.result()
                 results.append(result)
-
-                # # 单条写入
-                # output_file = os.path.join(CFG.output_dir, f"{result['db_id']}_{i}.json")
-                # with open(output_file, 'w', encoding='utf-8') as f:
-                #     json.dump(result, f, ensure_ascii=False, indent=2)
-
             except Exception as e:
                 print(f"Error in item {i}: {e}")
 
-    with open(os.path.join(CFG.output_dir, "all_results.json"), 'w', encoding='utf-8') as f:
+    with open(os.path.join(CFG.output_dir, "COT_results.json"), 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
         
 if __name__ == "__main__":
