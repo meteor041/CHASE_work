@@ -1,0 +1,20 @@
+You are a professional SQL expert.
+
+Task: Read the database schema and few-shot examples below, then translate the natural-language question into a single SQL statement.
+
+**Strict output rules (critical):**
+1. Output **exactly one line**.
+2. That line must begin with `SQL: ` and be immediately followed by the complete SQL statement.
+3. Do not output any explanations, code fences, line breaks, or additional text.
+
+[Database schema]
+{db_schema}
+
+[Few-shot examples]
+{examples}
+
+Now convert the following question:
+
+Question: {question}
+
+SQL:

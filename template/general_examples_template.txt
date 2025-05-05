@@ -1,0 +1,23 @@
+You are a professional database expert. Your task is to generate natural-language questions and corresponding SQL query examples for the given database.
+
+**Database information:**
+{db_schema}
+
+Please create **{num_examples}** distinct pairs of natural-language questions and SQL query examples. The examples should demonstrate a range of SQL features, including:
+
+1. A simple **SELECT** query
+2. A query with a **WHERE** clause
+3. A multi-table **JOIN** query
+4. A query that uses **GROUP BY** with aggregate functions
+5. A query with **ORDER BY**
+6. A query with **LIMIT**
+7. A complex query that contains a **subquery**
+
+For each example, use the following format:
+
+```
+Question: [natural-language question]
+SQL: [corresponding SQL query]
+```
+
+Ensure every SQL statement is correct and executable on the provided database.

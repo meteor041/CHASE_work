@@ -28,19 +28,19 @@ class keyword_extractor():
         """
         if prompt_template == None:
             prompt_template = (
-            "输入问题: {question}\n"
-            "请严格遵循以下要求：\n"
-            "1. 仅提取出问题中的关键实体、属性、数值或筛选条件，作为关键词；\n"
-            "2. 仅输出以下标准 JSON 格式，不得添加任何额外解释或文字；\n"
-            "3. 如果无法提取关键词或问题不清晰，请返回空列表。\n\n"
-            "标准输出格式：\n"
+            "Input question: {question}\n"
+            "Please strictly follow these requirements:\n"
+            "1. Only extract the key entities, attributes, numbers, or filter conditions from the question as keywords;\n"
+            "2. Output only the following standard JSON format without adding any extra explanation or text;\n"
+            "3. If no keywords can be extracted or the question is unclear, return an empty list.\n\n"
+            "Standard output format:\n"
             "{{\n"
             '  "keywords": ["<keyword1>", "<keyword2>", "..."]\n'
             "}}\n"
-            "【特别注意】：\n"
-            "- 不要输出除 JSON 之外的任何内容\n"
-            "- 保持关键词简单精炼，如必要可保留数字和单位\n"
-            "- 如果格式错误或输出多余内容，答案视为无效\n"
+            "【Special Note】：\n"
+            "- Do not output anything other than the JSON content\n"
+            "- Keep the keywords concise; retain numbers and units if necessary\n"
+            "- If the format is incorrect or extra content is output, the answer will be considered invalid\n"
             )
         prompt = prompt_template.format(question=question)
         # 编码输入
@@ -54,7 +54,7 @@ class keyword_extractor():
         out = self.model.generate(
             **inputs,
             max_new_tokens=256,
-            temperature=0.7,
+            temperature=0.1,
             top_p=0.9,
             return_dict_in_generate=True,  # 关键！返回 structured outputs
             return_legacy_cache=True  # <<< 这样旧版兼容模式
