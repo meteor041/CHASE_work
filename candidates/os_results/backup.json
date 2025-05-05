@@ -1,0 +1,69 @@
+[
+  {
+    "id": "",
+    "question": "Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.",
+    "db_schema": {
+      "movies": [
+        "movie_title",
+        "movies",
+        "movie_title_language",
+        "movie_release_year",
+        "movie_popularity",
+        "movie_release_year",
+        "movie_title",
+        "movies",
+        "movie_id",
+        "movie_release_year",
+        "movies",
+        "movie_title",
+        "movie_popularity",
+        "movies",
+        "movie_title",
+        "movie_popularity",
+        "movies"
+      ],
+      "ratings": [
+        "movie_id",
+        "critic",
+        "ratings",
+        "critic",
+        "ratings",
+        "critic_likes",
+        "rating_url"
+      ],
+      "lists": [
+        "lists"
+      ]
+    },
+    "sql": "SELECT movie_title, movie_popularity FROM movies WHERE movie_release_year = 1945 ORDER BY movie_popularity DESC;",
+    "general_examples": [
+      [
+        "What are the top 3 most popular movies?",
+        "SELECT movie_title, movie_popularity FROM movies ORDER BY movie_popularity DESC LIMIT 3;"
+      ],
+      [
+        "Which movies have a popularity score higher than 80 and were released in 2020?",
+        "SELECT movie_title FROM movies WHERE movie_popularity > 80 AND movie_release_year = 2020;"
+      ],
+      [
+        "What is the average rating for each movie listed in the lists table?",
+        "SELECT m.movie_title, AVG(r.ratings) FROM movies m JOIN ratings r ON m.movie_id = r.movie_id WHERE m.movie_id IN (SELECT movie_id FROM lists) GROUP BY m.movie_id ORDER BY AVG(r.ratings) DESC;"
+      ]
+    ],
+    "schema_examples": [
+      [
+        "List all movies released in the year 2020.",
+        "SELECT movie_title, movie_release_year FROM movies WHERE movie_release_year = 2020;"
+      ],
+      [
+        "Find the movie with the highest popularity score.",
+        "SELECT movie_title, movie_popularity FROM movies ORDER BY movie_popularity DESC LIMIT 1;"
+      ],
+      [
+        "Retrieve movies that have a critic rating higher than 8.",
+        "SELECT m.movie_title, r.ratings FROM"
+      ]
+    ],
+    "prompt": "System message\nYou are a senior SQL generator.\n\nOutput policy (absolute):\n• You MUST respond with one and only one fenced code block in valid JSON.\n• The JSON object MUST contain exactly one key named \"sql\".\n• No other words, numbers, line-breaks, comments, or formatting outside the code block.\n• Violation leads to task failure.\n\nAssistant message (few-shot: good & bad)\n\n# ✅ Correct example\n```json\n{\"sql\": \"SELECT 1;\"}\n```\n\n❌ Wrong example\nSure! Here is the query:\n{\"sql\": \"SELECT 1;\"}\nExplanation…\n(The text outside the block makes the answer INVALID.)\n\n--\n\n### User message\n\nTask: read the database schema and few-shot examples, then write a single SQL query that answers the question.\n\nReturn the answer using the exact format shown in the ✅ Correct example above.\n\n[Database schema]\n{'movies': ['movie_title', 'movies', 'movie_title_language', 'movie_release_year', 'movie_popularity', 'movie_release_year', 'movie_title', 'movies', 'movie_id', 'movie_release_year', 'movies', 'movie_title', 'movie_popularity', 'movies', 'movie_title', 'movie_popularity', 'movies'], 'ratings': ['movie_id', 'critic', 'ratings', 'critic', 'ratings', 'critic_likes', 'rating_url'], 'lists': ['lists']}\n\n[Few-shot examples]\nExample 1:\nQuestion: What are the top 3 most popular movies?\nSQL: SELECT movie_title, movie_popularity FROM movies ORDER BY movie_popularity DESC LIMIT 3;\nExample 2:\nQuestion: Which movies have a popularity score higher than 80 and were released in 2020?\nSQL: SELECT movie_title FROM movies WHERE movie_popularity > 80 AND movie_release_year = 2020;\nExample 3:\nQuestion: What is the average rating for each movie listed in the lists table?\nSQL: SELECT m.movie_title, AVG(r.ratings) FROM movies m JOIN ratings r ON m.movie_id = r.movie_id WHERE m.movie_id IN (SELECT movie_id FROM lists) GROUP BY m.movie_id ORDER BY AVG(r.ratings) DESC;\nExample 4:\nQuestion: List all movies released in the year 2020.\nSQL: SELECT movie_title, movie_release_year FROM movies WHERE movie_release_year = 2020;\nExample 5:\nQuestion: Find the movie with the highest popularity score.\nSQL: SELECT movie_title, movie_popularity FROM movies ORDER BY movie_popularity DESC LIMIT 1;\nExample 6:\nQuestion: Retrieve movies that have a critic rating higher than 8.\nSQL: SELECT m.movie_title, r.ratings FROM\n\n\nQuestion: Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.\n\n<< END OF INSTRUCTIONS — BEGIN ANSWER >>"
+  }
+]

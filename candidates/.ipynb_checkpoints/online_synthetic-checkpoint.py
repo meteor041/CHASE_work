@@ -30,7 +30,7 @@ class Config:
     output_dir: str =  r"/home/yangliu26/CHASE/candidates/os_results"
     
     # 文本生成超参
-    max_new_tokens: int = 1024
+    max_new_tokens: int = 256
     do_sample: bool = True
     temperature: float = 0.7
     # 性能设置
@@ -55,6 +55,7 @@ def load_model_and_tokenizer(cfg: Config):
         cfg.model_name,
         trust_remote_code=True,
         padding_side="left",
+        enable_thinking=False,
     )
     model = AutoModelForCausalLM.from_pretrained(
         cfg.model_name,
@@ -63,6 +64,7 @@ def load_model_and_tokenizer(cfg: Config):
         quantization_config=quant_cfg,
         device_map=cfg.device_map,
     )
+    model.generation_config.enable_thinking = False
     return tokenizer, model
 
 def batched(iterable: List[Any], n: int):
@@ -83,9 +85,9 @@ def generate_examples_by_sql_features(db_schema: str, num_examples: int, generat
         num_examples=num_examples
     )
     
-    response = generator(prompt, max_new_tokens=1024, do_sample=True, temperature=0.8)
+    response = generator(prompt, max_new_tokens=256, do_sample=True, temperature=0.5, enable_thinking=False)
     text = response[0]["generated_text"].strip()
-    
+    print("步骤1:", text)
     # 解析示例
     examples = []
     lines = text.split('\n')
@@ -112,9 +114,9 @@ def generate_examples_by_schema(db_schema: str, num_examples: int, generator) ->
         num_examples=num_examples
     )
     
-    response = generator(prompt, max_new_tokens=1024, do_sample=True, temperature=0.8)
+    response = generator(prompt, max_new_tokens=256, do_sample=True, temperature=0.5, enable_thinking=False)
     text = response[0]["generated_text"].strip()
-    
+    print("步骤2:",text)
     # 解析示例
     examples = []
     lines = text.split('\n')
@@ -147,26 +149,52 @@ def format_few_shot_prompt(examples: List[Tuple[str, str]], question: str, db_sc
     )
 
 def extract_sql(text: str) -> str:
+    print("text: ", text)
     """从生成的文本中提取SQL"""
-    # 尝试找到SQL:后面的内容
-    if "SQL:" in text:
-        return text.split("SQL:", 1)[1].strip()
-    return text.strip()
+    pattern = r"```(?:json)?\s*([\s\S]*?)\s*```"
+    match = re.search(pattern, text, flags=re.IGNORECASE)
+    
+    if not match:
+        print("no match")
+        return text                 # 没找到代码块
+
+    json_str = match.group(1).strip()
+    print("json_str: ", json_str)
+    try:
+        obj = json.loads(json_str)  # ❷ 解析 JSON
+    except json.JSONDecodeError as e:
+        print(f"[JSON 解析失败] {e}")
+        print(f"原语句 {json_str}")
+        return json_str
+    except Exception as e:
+        print(f"[其他失败] {e}")
+        print(f"原语句 {json_str}")
+    print("obj: ", obj)
+    # 允许大小写差异
+    try:
+        sql = obj.get("sql") or obj.get("SQL")
+    except Exception as e:
+        print("JSON 中未找到 'sql'或者'SQL` 字段", obj)
+    if not sql:
+        print("JSON 中未找到 'sql'或者'SQL` 字段")
+        return obj
+    return sql.strip()
 
 def online_synthetic_icl(question: str, db_schema: str, generator, 
                          num_general: int = 3, num_schema_aware: int = 3):
     """主函数：使用在线合成示例方法生成SQL"""
     print("步骤1: 使用常见SQL特征生成通用示例")
     general_examples = generate_examples_by_sql_features(db_schema, num_general, generator)
-    
+    print("完成步骤1")
     print("步骤2: 生成schema-aware示例")
     schema_examples = generate_examples_by_schema(db_schema, num_schema_aware, generator)
-    
+    print("完成步骤2")
     print("步骤3: 组合所有示例 + 当前问题进入Prompt")
     prompt = format_few_shot_prompt(general_examples + schema_examples, question, db_schema)
-    
+    print("完成步骤3")
     print("步骤4: 生成SQL")
-    response = generator(prompt, max_new_tokens=1024, do_sample=False)
+    response = generator(prompt, max_new_tokens=128, do_sample=True, enable_thinking=False)
+    print("完成SQL生成")
     return general_examples, schema_examples, prompt, extract_sql(response[0]["generated_text"])
 
 def process_single_item(item: Dict[str, Any], generator) -> Dict[str, Any]:
@@ -205,8 +233,8 @@ def process_data():
     # 加载数据
     with open(CFG.input_json, 'r', encoding='utf-8') as f:
         data = json.load(f)
-    data = data[0:1]
-    print(data)
+    # data = data[:1]
+    # print(data)
     # 加载模型和分词器
     tokenizer, model = load_model_and_tokenizer(CFG)
     generator = pipeline(
