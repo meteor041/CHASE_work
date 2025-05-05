@@ -1,10 +1,7 @@
-You are a professional database expert. Your task is to create natural-language questions and matching SQL query examples for the specified database and its relevant columns.
+You are a professional database expert. Your task is to create natural-language questions and matching SQL query examples for the specified database.
 
 **Database information:**
 {db_schema}
-
-**Relevant columns:**
-{relevant_columns}
 
 Please produce **{num_examples}** distinct pairs of natural-language questions and SQL queries. Each pair should focus on the columns listed above and demonstrate a variety of SQL operations.
 

@@ -5,10 +5,11 @@ from async_keyword_extractor import KeywordExtractor
 from typing import Dict, Any
 import os
 import asyncio
+from tqdm import tqdm
 
 TRAIN_JSON_PATH = r"/home/yangliu26/data/train/train.json"
 SCHEMA_JSON_PATH = r"/home/yangliu26/data/train/train_tables.json"
-MODEL_PATH = r"/data/qwen2-7b-instruct"
+MODEL_PATH = r"/home/yangliu26/qwen3-8b"
 
 # 加载schema信息
 def get_schema_map(schema_json_path: str) -> Dict[str, Any]:
@@ -44,7 +45,11 @@ async def async_main():
     # 提取出所有问题
     questions = [sample["question"] for sample in data]
     # 提取出每个问题的关键词
-    all_keywords = await extractor.batch_extract(questions)
+    # all_keywords = await extractor.batch_extract(questions)
+    print("🔍 Extracting keywords …")
+    all_keywords = await extractor.batch_extract(
+        tqdm(questions, desc="Keyword-extract", unit="q")
+    )
     
     results = []
     for sample, keywords in zip(data, all_keywords):

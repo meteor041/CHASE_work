@@ -1,15 +1,20 @@
-已思考几秒
+You are a professional SQL expert.
 
+Task: Read the database schema and few-shot examples below, then translate the natural-language question into a single SQL statement.
 
-You are a professional database expert. Your task is to convert a natural-language question into an SQL query.
+**Strict output rules (critical):**
+1. Output **exactly one line**.
+2. That line must begin with `SQL: ` and be immediately followed by the complete SQL statement.
+3. Do not output any explanations, code fences, line breaks, or additional text.
 
-**Database information:**
-{db\_schema}
+[Database schema]
+{db_schema}
 
-**Examples:**
+[Few-shot examples]
 {examples}
 
-Now, please generate an SQL query for the question below:
+Now convert the following question:
+
 Question: {question}
 
 SQL:
