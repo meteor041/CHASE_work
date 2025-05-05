@@ -8,7 +8,7 @@ from typing import List, Tuple, Dict
 from sentence_transformers import SentenceTransformer
 
 class SchemaLinker:
-    def __init__(self, embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+    def __init__(self, embedding_model_name: str = "/home/yangliu26/all-MiniLM-L6-v2"):
         self.model = SentenceTransformer(embedding_model_name)
         self.index = None
         self.index_mapping = []  # 保留原始字符串

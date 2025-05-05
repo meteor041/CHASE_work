@@ -37,9 +37,11 @@ Output Rules:
 - If no keywords can be extracted, return an empty list in JSON format.
 
 Strict Output Format:
+```json
 {{
   "keywords": ["<keyword1>", "<keyword2>", "..."]
 }}
+```
 
 Input Question:
 {question}
@@ -48,18 +50,35 @@ Respond with **only** the strict JSON object as specified above.
 """
         return prompt_template.format(question=question)
 
+    def extract_json_block(text: str) -> dict | None:
+        """
+        从文本中抓取第一个合法的 JSON 对象并反序列化。
+        返回 dict；若没找到返回 None。
+        """
+        # 非贪婪匹配最外层 {...}
+        match = re.search(r"\{[\s\S]*?\}", text)
+        if match:
+            try:
+                return json.loads(match.group())
+            except json.JSONDecodeError:
+                return None
+        return None
+
+    
     def clean_output(self, result: str) -> str:
         # 去除包裹的 ```json ``` 和其他markdown
         cleaned = re.sub(r"^```(?:json)?\\s*([\\s\\S]*?)\\s*```$", r"\\1", result.strip())
         # 尝试提取第一个出现的大括号 {} 或数组 []
         match = re.search(r'({[\\s\\S]*})|(\[[\\s\\S]*\])', cleaned)
         if match:
+            print("匹配成功")
             return match.group(0)
+        print("匹配失败")
         return cleaned  # fallback
 
     def parse_keywords(self, cleaned: str) -> List[str]:
         try:
-            parsed = json.loads(cleaned)
+            parsed = extract_json_block(cleaned)
             if isinstance(parsed, list):
                 parsed = parsed[0]
             return parsed.get("keywords", [])

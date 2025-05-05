@@ -5,7 +5,6 @@ from async_keyword_extractor import KeywordExtractor
 from typing import Dict, Any
 import os
 import asyncio
-from tqdm import tqdm
 
 TRAIN_JSON_PATH = r"/home/yangliu26/data/train/train.json"
 SCHEMA_JSON_PATH = r"/home/yangliu26/data/train/train_tables.json"
@@ -40,17 +39,16 @@ async def async_main():
     # 取前10个数据作为测试
     data = data[:10]
     schema_map = get_schema_map(SCHEMA_JSON_PATH)
+    print("schema_map提取完成")
     extractor = KeywordExtractor(MODEL_PATH)
+    print("extractor建立完成")
     linker = SchemaLinker()
+    print("linker建立完成")
     # 提取出所有问题
     questions = [sample["question"] for sample in data]
     # 提取出每个问题的关键词
-    # all_keywords = await extractor.batch_extract(questions)
-    print("🔍 Extracting keywords …")
-    all_keywords = await extractor.batch_extract(
-        tqdm(questions, desc="Keyword-extract", unit="q")
-    )
-    
+    all_keywords = await extractor.batch_extract(questions)
+    print("提取关键词完成")
     results = []
     for sample, keywords in zip(data, all_keywords):
         db_id = sample["db_id"]
