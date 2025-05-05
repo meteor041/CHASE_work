@@ -48,7 +48,7 @@ async def async_main():
     questions = [sample["question"] for sample in data]
     # 提取出每个问题的关键词
     all_keywords = await extractor.batch_extract(questions)
-    
+    print("提取关键词完成")
     results = []
     for sample, keywords in zip(data, all_keywords):
         db_id = sample["db_id"]
