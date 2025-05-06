@@ -22,8 +22,8 @@ def get_schema_map(schema_json_path: str) -> Dict[str, Any]:
 def link_keywords_to_schema(keywords, schema_info):
     # 简单schema linking逻辑：关键词与表名、字段名做模糊匹配
     linked = []
-    tables = schema_info.get("table_names_original", [])
-    columns = [col[1] for col in schema_info.get("column_names_original", [])]
+    tables = schema_info.get("table_names", [])
+    columns = [col[1] for col in schema_info.get("column_names", [])]
     for kw in keywords:
         for t in tables:
             if kw.lower() in t.lower():
@@ -37,7 +37,7 @@ async def async_main():
     with open(TRAIN_JSON_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
     # 取前10个数据作为测试
-    data = data[:10]
+    data = data[:100]
     schema_map = get_schema_map(SCHEMA_JSON_PATH)
     print("schema_map提取完成")
     extractor = KeywordExtractor(MODEL_PATH)
@@ -46,11 +46,13 @@ async def async_main():
     print("linker建立完成")
     # 提取出所有问题
     questions = [sample["question"] for sample in data]
+    print("问题提取完成")
     # 提取出每个问题的关键词
+    print("开始提取关键词")
     all_keywords = await extractor.batch_extract(questions)
     print("提取关键词完成")
     results = []
-    for sample, keywords in zip(data, all_keywords):
+    for idx, (sample, keywords) in enumerate(zip(data, all_keywords), 1):
         db_id = sample["db_id"]
         question = sample["question"]
         evidence = sample["evidence"]
@@ -73,6 +75,13 @@ async def async_main():
             "keywords": keywords,
             "schema_linking": formatted_linking
         })
+
+        # --- 每 10 条立即保存 ---
+        if idx % 10 == 0:
+            flush_path = os.path.join(os.path.dirname(__file__), "schema_linking_result.json")
+            with open(flush_path, "w", encoding="utf-8") as f:
+                json.dump(results, f, ensure_ascii=False, indent=2)
+            print(f"已处理 {idx}/{len(data)}，中间结果写入 {flush_path}")
         
     # 输出结果到当前文件目录下的schema_linking_result.json
     out_path = os.path.join(os.path.dirname(__file__), "schema_linking_result.json")

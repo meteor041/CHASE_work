@@ -1,0 +1,84 @@
+[
+  {
+    "db_id": "movie_platform",
+    "question": "Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.",
+    "evidence": "released in the year 1945 refers to movie_release_year = 1945;",
+    "keywords": [
+      "movie titles",
+      "released",
+      "1945",
+      "sort",
+      "descending",
+      "popularity"
+    ],
+    "schema_linking": {
+      "movies": [
+        "movie_title",
+        "movies",
+        "movie_title_language",
+        "movie_release_year",
+        "movie_popularity",
+        "movie_release_year",
+        "movie_title",
+        "movies",
+        "movie_id",
+        "movie_release_year",
+        "movies",
+        "movie_title",
+        "movie_popularity",
+        "movie_popularity",
+        "movie_title",
+        "movies",
+        "movies",
+        "movie_title",
+        "movie_popularity",
+        "movies"
+      ],
+      "ratings": [
+        "movie_id",
+        "critic",
+        "ratings",
+        "ratings",
+        "critic",
+        "ratings",
+        "critic_likes",
+        "rating_url"
+      ],
+      "lists": [
+        "lists",
+        "lists"
+      ]
+    }
+  },
+  {
+    "db_id": "movie_platform",
+    "question": "State the most popular movie? When was it released and who is the director for the movie?",
+    "evidence": "most popular movie refers to MAX(movie_popularity); when it was released refers to movie_release_year; director for the movie refers to director_name;",
+    "keywords": [
+      "most popular movie",
+      "release date",
+      "director"
+    ],
+    "schema_linking": {
+      "movies": [
+        "movie_popularity",
+        "movies",
+        "movie_url",
+        "movie_title",
+        "movie_release_year",
+        "movie_release_year",
+        "movie_title",
+        "movie_url",
+        "director_name",
+        "director_id",
+        "director_url",
+        "movie_title",
+        "movies"
+      ],
+      "lists_users": [
+        "list_update_date_utc",
+        "list_creation_date_utc"
+      ]
+    }
+  }
+]

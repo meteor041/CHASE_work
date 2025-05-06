@@ -10,7 +10,8 @@ class KeywordExtractor:
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_path,
             trust_remote_code=True,
-            local_files_only=True
+            local_files_only=True,
+            enable_thinking=False,
         )
         self.model = AutoModelForCausalLM.from_pretrained(
             model_path,
@@ -19,6 +20,9 @@ class KeywordExtractor:
             trust_remote_code=True,
             local_files_only=True
         )
+        # 保险起见，再显式关一次 generation_config
+        self.model.generation_config.enable_thinking = False  
+        
         self.model.eval()
         self.model.config.pad_token_id = self.tokenizer.pad_token_id
 
@@ -50,7 +54,7 @@ Respond with **only** the strict JSON object as specified above.
 """
         return prompt_template.format(question=question)
 
-    def extract_json_block(text: str) -> dict | None:
+    def extract_json_block(self, text: str) -> dict | None:
         """
         从文本中抓取第一个合法的 JSON 对象并反序列化。
         返回 dict；若没找到返回 None。
@@ -67,18 +71,18 @@ Respond with **only** the strict JSON object as specified above.
     
     def clean_output(self, result: str) -> str:
         # 去除包裹的 ```json ``` 和其他markdown
-        cleaned = re.sub(r"^```(?:json)?\\s*([\\s\\S]*?)\\s*```$", r"\\1", result.strip())
+        cleaned = re.sub(r"^```(?:json)?\s*([\s\S]*?)\s*```$", r"\1", result.strip(), flags=re.DOTALL)
         # 尝试提取第一个出现的大括号 {} 或数组 []
-        match = re.search(r'({[\\s\\S]*})|(\[[\\s\\S]*\])', cleaned)
+        match = re.search(r"(\{[\s\S]*?\}|\[[\s\S]*?\])", cleaned)
         if match:
-            print("匹配成功")
+            print(f"匹配成功:{match.group(0)}")
             return match.group(0)
-        print("匹配失败")
+        print(f"匹配失败:{cleaned}")
         return cleaned  # fallback
 
     def parse_keywords(self, cleaned: str) -> List[str]:
         try:
-            parsed = extract_json_block(cleaned)
+            parsed = self.extract_json_block(cleaned)
             if isinstance(parsed, list):
                 parsed = parsed[0]
             return parsed.get("keywords", [])
@@ -98,6 +102,7 @@ Respond with **only** the strict JSON object as specified above.
 
         try:
             output = await asyncio.wait_for(self._generate(inputs), timeout=timeout_sec)
+            # print(output)
             cleaned = self.clean_output(output)
             keywords = self.parse_keywords(cleaned)
             return keywords
@@ -108,11 +113,12 @@ Respond with **only** the strict JSON object as specified above.
     async def _generate(self, inputs) -> str:
         out = self.model.generate(
             **inputs,
-            max_new_tokens=256,
-            temperature=0.2,
-            top_p=0.8,
+            max_new_tokens=128,
+            # temperature=0.01,
+            # top_p=0.8,
             do_sample=False,
-            return_dict_in_generate=True
+            return_dict_in_generate=True,
+            enable_thinking=False,
         )
         generated_tokens = out.sequences[:, inputs.input_ids.shape[1]:]
         result = self.tokenizer.decode(generated_tokens[0], skip_special_tokens=True)
@@ -125,7 +131,7 @@ Respond with **only** the strict JSON object as specified above.
 
 
 if __name__ == "__main__":
-    model_path = "/data/qwen2-7b-instruct"
+    model_path = "/home/yangliu26/qwen3-8b"
     extractor = KeywordExtractor(model_path)
 
     async def main():
